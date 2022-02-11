@@ -1,9 +1,15 @@
 /*
 This is a linked list type of class that will hold the student and the tutor objects
+This will be the main class of the program. It's called Website, as it stores the users.
+Users = > these are persons/ people who can either be students or the tutors
+tutors => they register in the website to provide tutoring in one or more courses. their details can be provided upon request
+students => they register to look for tutors in certain courses. details show their appointments and their fees
 
  */
 
 public class Website {
+    //CLASS  fields
+    //pointer to the first user
     private User first;
 
     //default constructor
@@ -11,16 +17,60 @@ public class Website {
         first = null;
     }
 
-    public void addPerson(Person type){
+
+    //this method adds a new person who wants to register in the website.
+    public boolean addPerson(Person type){
+        if(type instanceof Tutor){
+            type = (Tutor)type;
+        }else{
+            type = (Student)type;
+        }
+
+        User curr = first;
+        while (curr != null){
+            if(curr.getType() instanceof Tutor){
+                if((((Tutor)curr.getType()).userID).equals(type.userID)){
+                    return false;
+                }
+                curr = curr.getNext();
+            }else{
+                if(((Student)curr.getType()).userID.equals(type.userID)){
+                   return false;
+                }
+                curr = curr.getNext();
+            }
+        }
 
         User newU = new User(type);
         if (first != null) {
             newU.setNext(first);
         }
         first = newU;
-
-
+        return true;
     }
+
+
+    //this method allows the website to extract a user using the userID
+    //it can either be a student or a tutor, casting is applied to get the accurate result
+    public Person getPerson(String name){
+        User curr = first;
+        while(curr!= null){
+            Person type = curr.getType();
+            if(type instanceof Tutor){
+                if((((Tutor)type).userID).equals(name)){
+                    return curr.getType();
+                }
+            }else{
+                if((type.userID).equals(name)){
+                    return curr.getType();
+                }
+            }
+            curr = curr.getNext();
+        }
+        return null;
+    }
+
+
     public Person getFirst(){
         return first.getType();
     }
@@ -31,34 +81,6 @@ public class Website {
             curr = curr.getNext();
         }
         return curr.getType();
-    }
-
-
-    public Person getPerson(String name){
-        User curr = first;
-        while(curr!= null){
-            System.out.println("inside while loop");
-            Person type = curr.getType();
-
-            if(type instanceof Tutor){
-                Tutor newTutor = (Tutor)type;
-
-                if((newTutor.userID).equals(name)){
-                    System.out.println("Tutor");
-                    return curr.getType();
-                }
-
-            }else{
-                Student newStu = (Student)type;
-                if((newStu.userID).equals(name)){
-                    System.out.println("Student");
-                    return curr.getType();
-                }
-            }
-            curr = curr.getNext();
-        }
-
-        return null;
     }
 
 }

@@ -1,5 +1,6 @@
 /*
 This is a class that creates courses and the rates provided by the tutors.
+this class holds the course name and the rate offered by the tutor
 */
 
 

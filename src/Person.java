@@ -11,4 +11,6 @@
      //abstract method with no implementation
      public abstract String toString();
 
+     public abstract boolean equals(Person prn);
+
  }

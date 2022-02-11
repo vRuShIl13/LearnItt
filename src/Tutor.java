@@ -40,7 +40,12 @@ tutors register using their userId and the number of hours available during the 
     }
 
 
-    //returns the number of courses registered by the tutor.
+    //this method checks the object in the parameter is the same class as the current object instance
+     public boolean equals(Person prn) {
+         return prn instanceof Tutor;
+     }
+
+     //returns the number of courses registered by the tutor.
     int howManyCourses (){
         return numCourses;
     }
