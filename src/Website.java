@@ -20,25 +20,20 @@ public class Website {
 
     //this method adds a new person who wants to register in the website.
     public boolean addPerson(Person type){
-        if(type instanceof Tutor){
-            type = (Tutor)type;
-        }else{
-            type = (Student)type;
-        }
 
         User curr = first;
         while (curr != null){
-            if(curr.getType() instanceof Tutor){
-                if((((Tutor)curr.getType()).userID).equals(type.userID)){
+            if(curr.getType() instanceof Tutor && type instanceof Tutor ){
+                if((((Tutor)curr.getType()).userID).equals(((Tutor)type).userID)){
+                    System.out.println("how many times have u come here ");
                     return false;
                 }
-                curr = curr.getNext();
-            }else{
-                if(((Student)curr.getType()).userID.equals(type.userID)){
+            }else if(curr.getType() instanceof Student && type instanceof Student ){
+                if((curr.getType()).userID.equals(type.userID)){
                    return false;
                 }
-                curr = curr.getNext();
             }
+            curr = curr.getNext();
         }
 
         User newU = new User(type);

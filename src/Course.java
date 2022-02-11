@@ -7,16 +7,19 @@ this class holds the course name and the rate offered by the tutor
 public class Course {
     protected String name;
     protected double rate;
+    protected Course next;
 
     //default constructor
     public Course(){
         name = "";
         rate = 0.0;
+        next = null;
     }
     //2nd constructor
     public Course(String cName, double amount){
         name = cName;
         rate = amount;
+        next = null;
     }
 
     //Getters and setters
@@ -32,6 +35,10 @@ public class Course {
     public void setRate(double rate) {
         this.rate = rate;
     }
-
-
+    public Course getNext() {
+        return next;
+    }
+    public void setNext(Course next) {
+        this.next = next;
+    }
 }
