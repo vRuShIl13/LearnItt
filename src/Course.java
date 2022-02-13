@@ -5,9 +5,9 @@ this class holds the course name and the rate offered by the tutor
 
 
 public class Course {
-    protected String name;
-    protected double rate;
-    protected Course next;
+    private String name;
+    private double rate;
+    private Course next;
 
     //default constructor
     public Course(){

@@ -9,18 +9,20 @@ tutors register using their userId and the number of hours available during the 
     protected String userID;
     protected int numHrs;
     int numCourses = 0;
-    Course [] courses = new Course[20];
+    Courses numC;
 
     //default constructor
     public Tutor(){
         userID = "";
         numHrs = 0;
+        numC = new Courses();
     }
 
     //2nd constructor
     public Tutor(String name, int hours){
         userID = name;
         numHrs = hours;
+        numC = new Courses();
     }
 
 
@@ -31,7 +33,7 @@ tutors register using their userId and the number of hours available during the 
 
         if(numCourses<20){
             Course newC = new Course(name, rate);
-            courses[numCourses] = newC;
+            numC.addCourse(newC);
             numCourses++;
             val = true;
         }
@@ -52,7 +54,12 @@ tutors register using their userId and the number of hours available during the 
 
     //to string method
     public String toString() {
-        return "Report for Tutor  " + "\n--------------------------\n "+ " userID = '" + userID + ", numHrs = " + numHrs + ", numCourses = " + numCourses + " }" ;
+        return "Report for Tutor  " + "\n--------------------------\n "+ " userID = '" + userID + ", numHrs = " + numHrs + ", numCourses = " + numCourses + " }"
+                ;
+    }
+
+    public String getCourses(){
+        return numC.toString();
     }
 
     //GETTERS AND SETTERS

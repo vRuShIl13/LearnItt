@@ -12,6 +12,7 @@ public class Main {
         Person s4= new Tutor("Achar",1);
 
         Website newW = new Website();
+
         newW.addPerson(p1);
         newW.addPerson(t1);
         newW.addPerson(s1);
@@ -39,6 +40,10 @@ public class Main {
 
         p1.addCourse("Chemistry", 100.00);
         p1.addCourse("Mathematics", 120.00);
+
+        System.out.println("\ndoes this work\n");
+        System.out.println(p1.getCourses());
+        System.out.println("\nyes it does \n");
 
         System.out.println(p1);
 

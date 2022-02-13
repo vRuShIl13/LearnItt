@@ -7,6 +7,8 @@ students => they register to look for tutors in certain courses. details show th
 
  */
 
+import java.sql.SQLOutput;
+
 public class Website {
     //CLASS  fields
     //pointer to the first user
@@ -25,7 +27,6 @@ public class Website {
         while (curr != null){
             if(curr.getType() instanceof Tutor && type instanceof Tutor ){
                 if((((Tutor)curr.getType()).userID).equals(((Tutor)type).userID)){
-                    System.out.println("how many times have u come here ");
                     return false;
                 }
             }else if(curr.getType() instanceof Student && type instanceof Student ){
@@ -35,7 +36,6 @@ public class Website {
             }
             curr = curr.getNext();
         }
-
         User newU = new User(type);
         if (first != null) {
             newU.setNext(first);
@@ -64,6 +64,50 @@ public class Website {
         }
         return null;
     }
+
+    public boolean getStudent(String name){
+
+        User curr = first;
+
+        while(curr!= null){
+            if(curr.getType() instanceof Student  ){
+                if((((Student)curr.getType()).userID).equals(name)){
+                    return true;
+                }
+            }
+            curr = curr.getNext();
+        }
+
+        return false;
+    }
+
+
+    //this is the main part of the website
+    //according to the tpoic given in the parameter, a search is done through the list of tutors, and  then through their list of courses, if they tutor the tpc
+    public boolean request(String stuId, Course tpc, int n){
+        boolean val = false;
+        Courses common;
+        User curr = first;
+
+        //start by looking for the student in the website
+        if(getStudent(stuId)){
+            //now look for all the tutors with available hrs and specifically teaching the course.
+            //store the in a temporary list of tutors
+
+
+
+        }else{
+            System.out.println("Student with userID: "+ stuId + " not found!");
+            return false;
+        }
+
+
+
+        return true;
+    }
+
+
+
 
 
     public Person getFirst(){
