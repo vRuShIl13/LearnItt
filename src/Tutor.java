@@ -6,16 +6,18 @@ tutors register using their userId and the number of hours available during the 
 
 
  class Tutor extends Person{
-    protected String userID;
-    protected int numHrs;
-    int numCourses = 0;
-    Courses numC;
+    private String userID;
+    private int numHrs;
+    private int numCourses = 0;
+    private Courses numC;
+    private Appointments Appoints;
 
     //default constructor
     public Tutor(){
         userID = "";
         numHrs = 0;
         numC = new Courses();
+        Appoints = new Appointments();
     }
 
     //2nd constructor
@@ -23,6 +25,7 @@ tutors register using their userId and the number of hours available during the 
         userID = name;
         numHrs = hours;
         numC = new Courses();
+        Appoints = new Appointments();
     }
 
 
@@ -41,6 +44,15 @@ tutors register using their userId and the number of hours available during the 
         return val;
     }
 
+    boolean findCourse (String n){
+        return numC.findCourse(n);
+    }
+
+    Course findC (String n ){
+        return numC.findC(n);
+    }
+
+
 
     //this method checks the object in the parameter is the same class as the current object instance
      public boolean equals(Person prn) {
@@ -57,6 +69,10 @@ tutors register using their userId and the number of hours available during the 
         return "Report for Tutor  " + "\n--------------------------\n "+ " userID = '" + userID + ", numHrs = " + numHrs + ", numCourses = " + numCourses + " }"
                 ;
     }
+
+     public void addAppointment(Appointment n){
+         Appoints.addAppointment(n);
+     }
 
     public String getCourses(){
         return numC.toString();

@@ -26,7 +26,7 @@ public class Website {
         User curr = first;
         while (curr != null){
             if(curr.getType() instanceof Tutor && type instanceof Tutor ){
-                if((((Tutor)curr.getType()).userID).equals(((Tutor)type).userID)){
+                if((((Tutor)curr.getType()).getUserID()).equals(((Tutor)type).getUserID())){
                     return false;
                 }
             }else if(curr.getType() instanceof Student && type instanceof Student ){
@@ -52,7 +52,7 @@ public class Website {
         while(curr!= null){
             Person type = curr.getType();
             if(type instanceof Tutor){
-                if((((Tutor)type).userID).equals(name)){
+                if((((Tutor)type).getUserID()).equals(name)){
                     return curr.getType();
                 }
             }else{
@@ -65,45 +65,87 @@ public class Website {
         return null;
     }
 
-    public boolean getStudent(String name){
+    public Student getStudent(String name){
 
         User curr = first;
 
         while(curr!= null){
             if(curr.getType() instanceof Student  ){
                 if((((Student)curr.getType()).userID).equals(name)){
-                    return true;
+                    return (Student) curr.getType();
                 }
             }
             curr = curr.getNext();
         }
 
-        return false;
+        return null;
     }
 
 
     //this is the main part of the website
-    //according to the tpoic given in the parameter, a search is done through the list of tutors, and  then through their list of courses, if they tutor the tpc
-    public boolean request(String stuId, Course tpc, int n){
+    //according to the topic given in the parameter, a search is done through the list of tutors, and  then through their list of courses, if they tutor the tpc
+    public boolean request(String stuId, String tpc, int n){
         boolean val = false;
-        Courses common;
-        User curr = first;
+
+        User curr = first;;
+        Tutor tutor1;
+        Student eligibleStu;
+        Course currTutCourse = null;
 
         //start by looking for the student in the website
-        if(getStudent(stuId)){
-            //now look for all the tutors with available hrs and specifically teaching the course.
+        eligibleStu = getStudent(stuId);
+
+        if(eligibleStu != null){
+            //now look for all the tutors with availabe hrs and specifically teaching the course.
             //store the in a temporary list of tutors
+            Tutor eligibleTut = null;
+            
+            while(curr!=null){
+                if(curr.getType() instanceof Tutor){
+                     tutor1 = ((Tutor) curr.getType());
+                    if((tutor1.getNumHrs()>0) && (tutor1.findCourse(tpc))){
+                        System.out.println("coming till here?");
+                         currTutCourse = tutor1.findC(tpc);
 
+                        if(eligibleTut == null){
+                            eligibleTut = tutor1;
+                        }else{
+                            if(currTutCourse.getRate()<eligibleTut.findC(tpc).getRate()){
+                                eligibleTut =tutor1;
+                            }else if(currTutCourse.getRate()==eligibleTut.findC(tpc).getRate()){
+                                if(tutor1.getNumHrs()> eligibleTut.getNumHrs() ){
+                                    eligibleTut = tutor1;
+                                }else if((tutor1.getUserID().compareTo(eligibleTut.getUserID()))<0){
+                                    eligibleTut = tutor1;
+                                }
+                            }
+                        }
+                    }
+                }
+                curr = curr.getNext();
+            }
+            if(eligibleTut.getNumHrs()>=n && currTutCourse != null){
+                setAppointment(eligibleStu,eligibleTut,tpc,n ,currTutCourse.getRate() );
 
+            }else{
+                int remain = n - eligibleTut.getNumHrs();
+                val = request(stuId,tpc,remain);
+            }
 
         }else{
-            System.out.println("Student with userID: "+ stuId + " not found!");
+            System.out.println("Request Failed : Student with userID: "+ stuId + " not found!");
             return false;
         }
-
-
-
         return true;
+    }
+
+    public void setAppointment(Student student, Tutor tutor, String course, int hrs, double c){
+        Appointment newAppointment = new Appointment(student.userID, tutor.getUserID(), course, hrs ,c);
+        int remain = tutor.getNumHrs()-hrs;
+        tutor.setNumHrs(remain);
+        student.addAppointment(newAppointment);
+        tutor.addAppointment(newAppointment);
+
     }
 
 

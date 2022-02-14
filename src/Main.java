@@ -6,46 +6,38 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Tutor p1 = new Tutor("Achar", 10);
-        Person t1 = new Tutor("Chesoli", 100);
-        Person s1 = new Student("Vrushil");
-        Person s4= new Tutor("Achar",1);
+        Tutor p1 = new Tutor("Achar", 40);
+        Person t1 = new Tutor("Chesoli", 10);
+        Person s1 = new Student("Vru");
+
 
         Website newW = new Website();
-
         newW.addPerson(p1);
-        newW.addPerson(t1);
         newW.addPerson(s1);
-        if(newW.addPerson(s4)){
-            System.out.println("wtf");
-        }else{
-            System.out.println("duplicate");
+
+        p1.addCourse("OO",120.00);
+
+        Person W1 = newW.getPerson("Achar");
+        if(W1!= null){
+            if(W1 instanceof Tutor){
+                if(((Tutor) W1).findCourse("OO")){
+                    System.out.println("course found");
+                    Course c =  ((Tutor) W1).findC("OO");
+                    if(c != null){
+                        System.out.println(c.getName());
+                    }
+                }
+            }
+            System.out.println("add");
         }
 
-        Person copy1 = newW.getFirst();  //Vrushil
-        Person specific = newW.getPerson("Achar");
-        Person last = newW.getLast();   //achar
+        if(newW.request("Vru","OO",20)){
+            System.out.println("true");
+            System.out.println(p1.getNumHrs());
+            System.out.println("\n");
+            System.out.println(((Student)s1).record());
 
-        Person specific2 = newW.getPerson("Vrushil");
-
-
-        System.out.println(copy1.toString());
-        System.out.println(specific.toString());
-        System.out.println(last.toString());
-
-        System.out.println(specific2.toString());
-
-
-        System.out.println(t1);
-
-        p1.addCourse("Chemistry", 100.00);
-        p1.addCourse("Mathematics", 120.00);
-
-        System.out.println("\ndoes this work\n");
-        System.out.println(p1.getCourses());
-        System.out.println("\nyes it does \n");
-
-        System.out.println(p1);
+        }
 
 
 
@@ -54,3 +46,15 @@ public class Main {
 
     }
 }
+
+
+/*
+things to do: what if the number of hours is more than those offered
+by a specific tutor, look for more tutors, if found make the appointments.
+
+make the proper output.
+
+i/o is left
+
+
+ */

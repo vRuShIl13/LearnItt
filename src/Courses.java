@@ -5,7 +5,7 @@ tutors can use this to store the list of courses they offer to the students
 
 
 public class Courses {
-    Course first;
+    private Course first;
 
 
     //default constructor
@@ -28,16 +28,28 @@ public class Courses {
         return true;
     }
 
-    boolean findCourse(Course name){
+    boolean findCourse(String name){
         Course curr = first;
 
         while(curr!= null){
-            if(curr.getName().equals(name.getName())){
+            if(curr.getName().equals(name)){
                 return true;
             }
             curr=curr.getNext();
         }
         return false;
+    }
+
+    Course findC(String name){
+        Course curr = first;
+
+        while(curr!= null){
+            if(curr.getName().equals(name)){
+                return curr;
+            }
+            curr=curr.getNext();
+        }
+        return null;
     }
 
     double getRate(String name){
