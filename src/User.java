@@ -1,4 +1,9 @@
+/*
+The website is basically make up of users
+users are people so they can either be students or tutors
+so this means user is a person who is either a student or a tutor
 
+ */
 
 public class User {
     private Person type;

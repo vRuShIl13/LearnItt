@@ -1,3 +1,8 @@
+/*
+This class stores the information about an appointment between a student and a tutor
+This entails the details about the appointment such as coursen name, rate ,hours, tutor and student name
+ */
+
 public class Appointment {
     private String stuName;
     private String tutorName;
@@ -25,13 +30,12 @@ public class Appointment {
 
     @Override
     public String toString() {
-        return "Appointment{" +
+        return " " +
                 "stuName='" + stuName + '\'' +
                 ", tutorName='" + tutorName + '\'' +
                 ", courseN='" + courseN + '\'' +
                 ", hours=" + hours +
-                ", cost=" + cost +
-                '}';
+                ", cost=" + cost ;
     }
 
     public Appointment getNext() {

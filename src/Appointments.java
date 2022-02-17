@@ -10,16 +10,34 @@ public class Appointments {
     public void addAppointment(Appointment newAppoint){
 
         if(top == null){
-            newAppoint.setNext(top);
+            newAppoint.setNext(null);
         }
+
+        newAppoint.setNext(top);
         top = newAppoint;
     }
 
-    @Override
+    public Appointment getAps(){
+        Appointment curr = top;
+
+        return curr;
+    }
+
+
     public String toString() {
-        return "Appointments{" +
-                "top" + top.toString() +
-                '}';
+        Appointment curr = top;
+        String appointments = "Report:"+ "\n"+ "------------------------"+"\n";
+        int count = 1;
+
+        if (curr != null) {
+            while (curr != null) {
+
+                appointments += "Appointment " + count + " " + curr  + "\n";
+                count++;
+                curr = curr.getNext();
+            }
+        }
+        return appointments;
     }
 }
 

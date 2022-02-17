@@ -12,6 +12,7 @@ tutors register using their userId and the number of hours available during the 
     private Courses numC;
     private Appointments Appoints;
 
+
     //default constructor
     public Tutor(){
         userID = "";
@@ -33,14 +34,12 @@ tutors register using their userId and the number of hours available during the 
     //this method adds a course in the tutors list of courses
     boolean  addCourse(String name , double rate){
         boolean val = false;
-
         if(numCourses<20){
             Course newC = new Course(name, rate);
             numC.addCourse(newC);
             numCourses++;
             val = true;
         }
-
         return val;
     }
 
@@ -53,7 +52,6 @@ tutors register using their userId and the number of hours available during the 
     }
 
 
-
     //this method checks the object in the parameter is the same class as the current object instance
      public boolean equals(Person prn) {
          return prn instanceof Tutor;
@@ -64,19 +62,31 @@ tutors register using their userId and the number of hours available during the 
         return numCourses;
     }
 
+
     //to string method
     public String toString() {
         return "Report for Tutor  " + "\n--------------------------\n "+ " userID = '" + userID + ", numHrs = " + numHrs + ", numCourses = " + numCourses + " }"
                 ;
     }
 
+
      public void addAppointment(Appointment n){
          Appoints.addAppointment(n);
      }
 
+     public String record (){
+         return  "------------------------"+"\n"+"Tutor "+this.userID + "'s "+  Appoints.toString()+"Total number of hours of tutoring: "+ this.getTotalhrs()
+                 + "\nTotal revenue from tutoring: "+ this.getTotalCost()+"\n";
+     }
+
+
     public String getCourses(){
         return numC.toString();
     }
+
+
+
+
 
     //GETTERS AND SETTERS
     public void setNumHrs(int numHrs) {
@@ -92,4 +102,21 @@ tutors register using their userId and the number of hours available during the 
         return userID;
     }
 
-}
+     public double getTotalCost() {
+         return totalCost;
+     }
+
+     public int getTotalhrs() {
+         return totalhrs;
+     }
+
+     public void setTotalhrs(int totalhrs) {
+         this.totalhrs += totalhrs;
+     }
+
+     public void setTotalCost(double totalCost) {
+         this.totalCost += totalCost;
+     }
+
+
+ }

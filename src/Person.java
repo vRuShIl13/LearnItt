@@ -6,11 +6,21 @@
  public abstract class  Person {
      //commonly shared fields
      protected String userID;
+     protected double totalCost;
+     protected int totalhrs;
+
 
      //common methods
      //abstract method with no implementation
+
+
      public abstract String toString();
-
+     public abstract void addAppointment(Appointment n);
      public abstract boolean equals(Person prn);
+     public abstract void setTotalhrs(int totalhrs);
+     public abstract void setTotalCost(double totalCost);
+     public abstract String record ();
 
+
+     public abstract String getUserID();
  }

@@ -7,22 +7,25 @@ UserId, appointments , total cost of the tuition etc
 
 class Student extends Person {
 
-    private double totalCost;
     private Appointments aps;
 
     //default constructor
     public Student(){
 
         userID = "";
+        totalCost = 0;
+        totalhrs = 0;
         aps = new Appointments();
     }
 
     //second constructor
     public Student(String name){
         totalCost = 0;
+        totalhrs = 0;
         userID = name;
         aps = new Appointments();
     }
+
 
     public void addAppointment(Appointment n){
         aps.addAppointment(n);
@@ -37,13 +40,29 @@ class Student extends Person {
         return totalCost;
     }
 
-    public void setTotalCost(int totalCost) {
-        this.totalCost = totalCost;
+    public int getTotalhrs() {
+        return totalhrs;
+    }
+
+    public void setTotalhrs(int totalhrs) {
+        this.totalhrs += totalhrs;
+    }
+
+    public void setTotalCost(double totalCost) {
+        this.totalCost += totalCost;
     }
 
     public String record (){
-        return aps.toString();
+        return "------------------------"+"\n"+"Student "+this.userID + "'s "+ aps.toString() +"Total number of hours of tutoring: "+
+                this.getTotalhrs() + "\nTotal cost for the Tuition is "+this.getTotalCost()+"\n";
     }
+
+
+
+    public String  getUserID() {
+        return userID;
+    }
+
     //this method prints out the details of the student
      public String toString() {
          return "Student { " + " userID = '" + userID  +" }" ;

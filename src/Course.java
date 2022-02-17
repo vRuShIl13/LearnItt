@@ -1,6 +1,7 @@
 /*
 This is a class that creates courses and the rates provided by the tutors.
-this class holds the course name and the rate offered by the tutor
+The website can have tutors as a user. the tutor has courses that he/she offers to the students
+this class represents a course in tutor's list of courses
 */
 
 

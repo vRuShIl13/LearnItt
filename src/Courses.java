@@ -1,6 +1,7 @@
 /*
-This is a class that is a linked list implementation, it will stores node that will be of type courses
-tutors can use this to store the list of courses they offer to the students
+This class  is a linked list implementation, it will store courses as nodes.
+tutors can use this to store the list of courses they offer to the students.
+every tutor will have an instance of this class which enable people to know what courses the tutor is providing
  */
 
 

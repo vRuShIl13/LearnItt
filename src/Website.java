@@ -7,7 +7,7 @@ students => they register to look for tutors in certain courses. details show th
 
  */
 
-import java.sql.SQLOutput;
+
 
 public class Website {
     //CLASS  fields
@@ -21,27 +21,35 @@ public class Website {
 
 
     //this method adds a new person who wants to register in the website.
-    public boolean addPerson(Person type){
+    public boolean addStudent(Student type){
 
-        User curr = first;
-        while (curr != null){
-            if(curr.getType() instanceof Tutor && type instanceof Tutor ){
-                if((((Tutor)curr.getType()).getUserID()).equals(((Tutor)type).getUserID())){
-                    return false;
-                }
-            }else if(curr.getType() instanceof Student && type instanceof Student ){
-                if((curr.getType()).userID.equals(type.userID)){
-                   return false;
-                }
+        if(!findDuplicateStudent(type)) {
+
+            User newU = new User(type);
+            if (first != null) {
+                newU.setNext(first);
             }
-            curr = curr.getNext();
+            first = newU;
+
+            return true;
         }
-        User newU = new User(type);
-        if (first != null) {
-            newU.setNext(first);
+        return false;
+    }
+
+    //this method adds a new person who wants to register in the website.
+    public boolean addTutor(Tutor type){
+
+        if(!findDuplicateTutor(type)) {
+
+            User newU = new User(type);
+            if (first != null) {
+                newU.setNext(first);
+            }
+            first = newU;
+
+            return true;
         }
-        first = newU;
-        return true;
+        return false;
     }
 
 
@@ -71,7 +79,7 @@ public class Website {
 
         while(curr!= null){
             if(curr.getType() instanceof Student  ){
-                if((((Student)curr.getType()).userID).equals(name)){
+                if(((curr.getType()).userID).equals(name)){
                     return (Student) curr.getType();
                 }
             }
@@ -82,15 +90,19 @@ public class Website {
     }
 
 
+
+
+
     //this is the main part of the website
     //according to the topic given in the parameter, a search is done through the list of tutors, and  then through their list of courses, if they tutor the tpc
     public boolean request(String stuId, String tpc, int n){
         boolean val = false;
 
-        User curr = first;;
+        User curr = first;
         Tutor tutor1;
         Student eligibleStu;
         Course currTutCourse = null;
+        int availableHrs=0;
 
         //start by looking for the student in the website
         eligibleStu = getStudent(stuId);
@@ -101,35 +113,62 @@ public class Website {
             Tutor eligibleTut = null;
             
             while(curr!=null){
+                //start from the first user , look for tutors.
                 if(curr.getType() instanceof Tutor){
                      tutor1 = ((Tutor) curr.getType());
+                    //if tutor is found then check if he/she has available hours and the course required
                     if((tutor1.getNumHrs()>0) && (tutor1.findCourse(tpc))){
-                        System.out.println("coming till here?");
+                        //if the tutor has available hours and teaches the required course then assign him/ her as eligible
+                        //we will look for all the possible / best options for the student
                          currTutCourse = tutor1.findC(tpc);
-
+                         availableHrs += tutor1.getNumHrs();
+                        System.out.println(availableHrs);
+                        //if the tutor was first user in the website as a tutor then just assign as eligible
                         if(eligibleTut == null){
                             eligibleTut = tutor1;
                         }else{
+                            //here we compare current tutor and the eligible tutor's rates for the course
+                            //the one that offers the course with a lower rate will be the best choose.
                             if(currTutCourse.getRate()<eligibleTut.findC(tpc).getRate()){
                                 eligibleTut =tutor1;
+
                             }else if(currTutCourse.getRate()==eligibleTut.findC(tpc).getRate()){
+                                //if there exists a tie with the course rates then the tutor with more hours is eligible
                                 if(tutor1.getNumHrs()> eligibleTut.getNumHrs() ){
                                     eligibleTut = tutor1;
-                                }else if((tutor1.getUserID().compareTo(eligibleTut.getUserID()))<0){
+
+                                }else if(tutor1.getNumHrs() == eligibleTut.getNumHrs() && (tutor1.getUserID().compareTo(eligibleTut.getUserID()))<0){
+                                    //if current tutor and eligible tutor have the same number of hrs then their userIds are compared
+                                    //alphabetically the tutor will be chosen
                                     eligibleTut = tutor1;
                                 }
+                                //if all the scenarios fail, then the request fails
                             }
                         }
                     }
                 }
                 curr = curr.getNext();
             }
-            if(eligibleTut.getNumHrs()>=n && currTutCourse != null){
-                setAppointment(eligibleStu,eligibleTut,tpc,n ,currTutCourse.getRate() );
 
-            }else{
-                int remain = n - eligibleTut.getNumHrs();
-                val = request(stuId,tpc,remain);
+            //this happens if there is no tutor who teachers the course at all.
+            if(eligibleTut == null ||  availableHrs < n){
+
+                System.out.println("myb the tutors did not have enough hours to do the tutoring fo rhte couserstrs");
+                return false;
+            }
+
+            if(currTutCourse != null) {
+                if (eligibleTut.getNumHrs() >= n) {
+                    setAppointment(eligibleStu, eligibleTut, tpc, n, currTutCourse.getRate());
+                } else {
+                    int remain = n - eligibleTut.getNumHrs();
+
+                    setAppointment(eligibleStu,eligibleTut,tpc,eligibleTut.getNumHrs(),currTutCourse.getRate());
+
+                    request(stuId, tpc, remain);
+
+
+                }
             }
 
         }else{
@@ -139,17 +178,57 @@ public class Website {
         return true;
     }
 
+    public Tutor findEligibleTut (){
+
+
+
+
+
+        return null;
+    }
+
     public void setAppointment(Student student, Tutor tutor, String course, int hrs, double c){
-        Appointment newAppointment = new Appointment(student.userID, tutor.getUserID(), course, hrs ,c);
+        Appointment newA1 = new Appointment(student.userID, tutor.getUserID(), course, hrs ,c);
+        Appointment newA2 = new Appointment(student.userID, tutor.getUserID(), course, hrs ,c);
         int remain = tutor.getNumHrs()-hrs;
         tutor.setNumHrs(remain);
-        student.addAppointment(newAppointment);
-        tutor.addAppointment(newAppointment);
+        student.addAppointment(newA1);
+        tutor.addAppointment(newA2);
+        student.setTotalCost(c);
+        student.setTotalhrs(hrs);
+        tutor.setTotalCost(c);
+        tutor.setTotalhrs(hrs);
 
     }
 
+    public boolean findDuplicateStudent(Student type){
 
+        User curr = first;
+        while (curr != null){
+            if(curr.getType() instanceof Student  ){
+                if(curr.getType().getUserID().equals(type.getUserID())){
+                    return true;
+                }
+            }
+            curr = curr.getNext();
+        }
 
+        return false;
+    }
+    public boolean findDuplicateTutor(Tutor type){
+
+        User curr = first;
+        while (curr != null){
+            if(curr.getType() instanceof Tutor  ){
+                if((curr.getType().getUserID()).equals(type.getUserID())){
+                    return true;
+                }
+            }
+            curr = curr.getNext();
+        }
+
+        return false;
+    }
 
 
     public Person getFirst(){
